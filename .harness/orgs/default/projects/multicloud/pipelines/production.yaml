@@ -3,12 +3,22 @@ pipeline:
   identifier: production
   projectIdentifier: multicloud
   orgIdentifier: default
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.veeraops
+        repoName: mechanical
+        build:
+          type: branch
+          spec:
+            branch: main
   stages:
     - stage:
         name: Deploy_to_EC2
         identifier: Deploy_to_EC2
         type: Deployment
         spec:
+          cloneCodebase: true
           deploymentType: Ssh
           service:
             serviceRef: python_app
