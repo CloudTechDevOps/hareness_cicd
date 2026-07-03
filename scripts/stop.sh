@@ -1,13 +1,11 @@
 #!/bin/bash
 
-echo "Taking Backup..."
+echo "Stopping existing application..."
 
-mkdir -p /home/ec2-user/backups
+PID=$(pgrep -f gunicorn || true)
 
-if [ -d /home/ec2-user/python-app ]
+if [ ! -z "$PID" ]
 then
-
-cp -r /home/ec2-user/python-app \
-/home/ec2-user/backups/python-app-$(date +%Y%m%d%H%M%S)
-
+    kill -15 $PID
+    sleep 10
 fi
