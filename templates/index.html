@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ app_name }} · Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20">
+        <path d="M2 12h4l2-7 4 14 3-9 2 5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <span class="brand-name">{{ app_name }}</span>
+    <span class="brand-env">{{ app_env }}</span>
+  </div>
+  <div class="topbar-right">
+    <span class="status-pill" id="overall-pill">
+      <span class="dot" id="overall-dot"></span>
+      <span id="overall-label">checking…</span>
+    </span>
+    <span class="uptime" id="uptime">uptime —</span>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Live system pulse</p>
+      <h1>Your service, in real time.</h1>
+      <p class="sub">No refresh needed — every tile below is redrawn from a live poll of the running process every 3 seconds.</p>
+    </div>
+    <div class="pulse-wrap">
+      <svg id="pulse-svg" viewBox="0 0 1000 180" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="pulseFade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#4FD1C5" stop-opacity="0"/>
+            <stop offset="15%" stop-color="#4FD1C5" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#4FD1C5" stop-opacity="1"/>
+          </linearGradient>
+        </defs>
+        <polyline id="pulse-line" fill="none" stroke="url(#pulseFade)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points=""/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="metrics">
+    <article class="metric-card">
+      <p class="metric-label">CPU</p>
+      <p class="metric-value"><span id="cpu-value">—</span><span class="metric-unit">%</span></p>
+      <div class="metric-bar"><span id="cpu-bar" style="width:0%"></span></div>
+    </article>
+    <article class="metric-card">
+      <p class="metric-label">Memory</p>
+      <p class="metric-value"><span id="mem-value">—</span><span class="metric-unit">%</span></p>
+      <div class="metric-bar"><span id="mem-bar" style="width:0%"></span></div>
+    </article>
+    <article class="metric-card">
+      <p class="metric-label">Requests / min</p>
+      <p class="metric-value"><span id="rpm-value">—</span></p>
+      <div class="metric-bar rpm"><span id="rpm-bar" style="width:0%"></span></div>
+    </article>
+    <article class="metric-card">
+      <p class="metric-label">Memory used</p>
+      <p class="metric-value"><span id="mem-mb-value">—</span><span class="metric-unit">MB</span></p>
+      <div class="metric-bar mb"><span id="mem-mb-bar" style="width:0%"></span></div>
+    </article>
+  </section>
+
+  <section class="lower-grid">
+    <div class="panel services">
+      <div class="panel-head">
+        <h2>Services</h2>
+        <span class="panel-hint">4 dependencies</span>
+      </div>
+      <ul id="service-list" class="service-list"></ul>
+    </div>
+
+    <div class="panel log">
+      <div class="panel-head">
+        <h2>Event log</h2>
+        <span class="panel-hint" id="log-hint">live</span>
+      </div>
+      <ul id="event-list" class="event-list"></ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>{{ app_name }} · served by Gunicorn</span>
+  <span id="clock">—</span>
+</footer>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
