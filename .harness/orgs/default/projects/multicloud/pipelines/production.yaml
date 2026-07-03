@@ -80,29 +80,6 @@ pipeline:
                       items: <+stage.output.hosts>
               - step:
                   type: Command
-                  name: Backup
-                  identifier: Backup
-                  spec:
-                    onDelegate: false
-                    shell: Bash
-                    commandUnits:
-                      - identifier: Backup
-                        name: Backup
-                        type: Script
-                        spec:
-                          shell: Bash
-                          source:
-                            type: Inline
-                            spec:
-                              script: |
-                                cd /tmp/mechanical
-                                chmod +x scripts/backup.sh
-                                ./scripts/backup.sh
-                  strategy:
-                    repeat:
-                      items: <+stage.output.hosts>
-              - step:
-                  type: Command
                   name: Start Application
                   identifier: Start
                   spec:
@@ -160,27 +137,6 @@ pipeline:
                         - account._account_all_users
                       minimumCount: 1
                       disallowPipelineExecutor: false
-          rollbackSteps:
-            - step:
-                type: Command
-                name: Rollback
-                identifier: Rollback
-                spec:
-                  onDelegate: false
-                  shell: Bash
-                  commandUnits:
-                    - identifier: Rollback
-                      name: Rollback
-                      type: Script
-                      spec:
-                        shell: Bash
-                        source:
-                          type: Inline
-                          spec:
-                            script: |
-                              cd /tmp/mechanical
-                              chmod +x scripts/rollback.sh
-                              ./scripts/rollback.sh
                 strategy:
                   repeat:
                     items: <+stage.output.hosts>
