@@ -29,6 +29,7 @@ pipeline:
           execution:
             steps:
               - step:
+                  cloneCodebase: true
                   type: Command
                   name: Install Dependencies
                   identifier: Install
