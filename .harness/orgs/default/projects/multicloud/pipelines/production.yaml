@@ -29,7 +29,6 @@ pipeline:
           execution:
             steps:
               - step:
-                  cloneCodebase: true
                   type: Command
                   name: Install Dependencies
                   identifier: Install
@@ -46,6 +45,10 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
+                                cd /tmp
+                                rm -rf mechanical
+                                git clone https://github.com/CloudTechDevOps/mechanical.git
+                                cd mechanical
                                 chmod +x scripts/install.sh
                                 ./scripts/install.sh
                   strategy:
@@ -69,6 +72,7 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
+                                cd /tmp/mechanical
                                 chmod +x scripts/stop.sh
                                 ./scripts/stop.sh
                   strategy:
@@ -91,6 +95,7 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
+                                cd /tmp/mechanical
                                 chmod +x scripts/backup.sh
                                 ./scripts/backup.sh
                   strategy:
@@ -113,6 +118,7 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
+                                cd /tmp/mechanical
                                 chmod +x scripts/deploy.sh
                                 ./scripts/deploy.sh
                   strategy:
@@ -135,6 +141,7 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
+                                cd /tmp/mechanical
                                 chmod +x scripts/start.sh
                                 ./scripts/start.sh
                   strategy:
@@ -157,6 +164,7 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
+                                cd /tmp/mechanical
                                 chmod +x scripts/healthcheck.sh
                                 ./scripts/healthcheck.sh
                   strategy:
@@ -193,6 +201,7 @@ pipeline:
                           type: Inline
                           spec:
                             script: |
+                              cd /tmp/mechanical
                               chmod +x scripts/rollback.sh
                               ./scripts/rollback.sh
                 strategy:
