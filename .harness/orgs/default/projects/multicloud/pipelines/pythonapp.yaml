@@ -1,0 +1,174 @@
+pipeline:
+  name: python-app
+  identifier: pythonapp
+  projectIdentifier: multicloud
+  orgIdentifier: default
+  stages:
+    - stage:
+        name: Deploy_to_EC2
+        identifier: Deploy_to_EC2
+        type: Deployment
+        spec:
+          deploymentType: Ssh
+          service:
+            serviceRef: python_app
+          environment:
+            environmentRef: production
+            infrastructureDefinitions:
+              - identifier: ec2_prod
+          execution:
+            steps:
+              - step:
+                  type: Command
+                  name: Install Dependencies
+                  identifier: Install
+                  spec:
+                    onDelegate: false
+                    shell: Bash
+                    commandUnits:
+                      - identifier: Install
+                        name: Install
+                        type: Script
+                        spec:
+                          shell: Bash
+                          source:
+                            type: Inline
+                            spec:
+                              script: |
+                                chmod +x scripts/install.sh
+                                ./scripts/install.sh
+              - step:
+                  type: Command
+                  name: Stop Application
+                  identifier: StopApplication
+                  timeout: 10m
+                  spec:
+                    onDelegate: false
+                    shell: Bash
+                    commandUnits:
+                      - identifier: Stop
+                        name: Stop
+                        type: Script
+                        spec:
+                          shell: Bash
+                          source:
+                            type: Inline
+                            spec:
+                              script: |
+                                chmod +x scripts/stop.sh
+                                ./scripts/stop.sh
+              - step:
+                  type: Command
+                  name: Backup
+                  identifier: Backup
+                  spec:
+                    onDelegate: false
+                    shell: Bash
+                    commandUnits:
+                      - identifier: Backup
+                        name: Backup
+                        type: Script
+                        spec:
+                          shell: Bash
+                          source:
+                            type: Inline
+                            spec:
+                              script: |
+                                chmod +x scripts/backup.sh
+                                ./scripts/backup.sh
+              - step:
+                  type: Command
+                  name: Deploy
+                  identifier: Deploy
+                  spec:
+                    onDelegate: false
+                    shell: Bash
+                    commandUnits:
+                      - identifier: Deploy
+                        name: Deploy
+                        type: Script
+                        spec:
+                          shell: Bash
+                          source:
+                            type: Inline
+                            spec:
+                              script: |
+                                chmod +x scripts/deploy.sh
+                                ./scripts/deploy.sh
+              - step:
+                  type: Command
+                  name: Start Application
+                  identifier: Start
+                  spec:
+                    onDelegate: false
+                    shell: Bash
+                    commandUnits:
+                      - identifier: Start
+                        name: Start
+                        type: Script
+                        spec:
+                          shell: Bash
+                          source:
+                            type: Inline
+                            spec:
+                              script: |
+                                chmod +x scripts/start.sh
+                                ./scripts/start.sh
+              - step:
+                  type: Command
+                  name: Health Check
+                  identifier: HealthCheck
+                  spec:
+                    onDelegate: false
+                    shell: Bash
+                    commandUnits:
+                      - identifier: Health
+                        name: Health
+                        type: Script
+                        spec:
+                          shell: Bash
+                          source:
+                            type: Inline
+                            spec:
+                              script: |
+                                chmod +x scripts/healthcheck.sh
+                                ./scripts/healthcheck.sh
+              - step:
+                  type: HarnessApproval
+                  name: Production Approval
+                  identifier: ProductionApproval
+                  timeout: 30m
+                  spec:
+                    approvalMessage: Approve deployment to Production
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      userGroups:
+                        - account._account_all_users
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+          rollbackSteps:
+            - step:
+                type: Command
+                name: Rollback
+                identifier: Rollback
+                spec:
+                  onDelegate: false
+                  shell: Bash
+                  commandUnits:
+                    - identifier: Rollback
+                      name: Rollback
+                      type: Script
+                      spec:
+                        shell: Bash
+                        source:
+                          type: Inline
+                          spec:
+                            script: |
+                              chmod +x scripts/rollback.sh
+                              ./scripts/rollback.sh
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
