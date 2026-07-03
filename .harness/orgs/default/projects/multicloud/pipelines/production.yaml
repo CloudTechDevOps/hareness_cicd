@@ -121,9 +121,108 @@ pipeline:
                                 cd /tmp/mechanical
                                 chmod +x scripts/healthcheck.sh
                                 ./scripts/healthcheck.sh
-                strategy:
-                  repeat:
-                    items: <+stage.output.hosts>
+                  strategy:
+                    repeat:
+                      items: <+stage.output.hosts>
+            rollbackSteps:
+              - step:
+                  type: Command
+                  name: Stop Failed Deployment
+                  identifier: RollbackStop
+                  timeout: 10m
+                  spec:
+                    onDelegate: false
+                    shell: Bash
+                    commandUnits:
+                      - identifier: Stop
+                        name: Stop
+                        type: Script
+                        spec:
+                          shell: Bash
+                          source:
+                            type: Inline
+                            spec:
+                              script: |
+                                cd /tmp/mechanical
+                                chmod +x scripts/stop.sh
+                                ./scripts/stop.sh || true
+                  strategy:
+                    repeat:
+                      items: <+stage.output.hosts>
+              - step:
+                  type: Command
+                  name: Restore Previous Version
+                  identifier: RollbackRestore
+                  timeout: 10m
+                  spec:
+                    onDelegate: false
+                    shell: Bash
+                    commandUnits:
+                      - identifier: Restore
+                        name: Restore
+                        type: Script
+                        spec:
+                          shell: Bash
+                          source:
+                            type: Inline
+                            spec:
+                              script: |
+                                cd /tmp/mechanical
+                                # Checkout previous commit
+                                git checkout HEAD~1
+                                chmod +x scripts/install.sh
+                                ./scripts/install.sh
+                  strategy:
+                    repeat:
+                      items: <+stage.output.hosts>
+              - step:
+                  type: Command
+                  name: Start Previous Version
+                  identifier: RollbackStart
+                  timeout: 10m
+                  spec:
+                    onDelegate: false
+                    shell: Bash
+                    commandUnits:
+                      - identifier: Start
+                        name: Start
+                        type: Script
+                        spec:
+                          shell: Bash
+                          source:
+                            type: Inline
+                            spec:
+                              script: |
+                                cd /tmp/mechanical
+                                chmod +x scripts/start.sh
+                                ./scripts/start.sh
+                  strategy:
+                    repeat:
+                      items: <+stage.output.hosts>
+              - step:
+                  type: Command
+                  name: Rollback Health Check
+                  identifier: RollbackHealthCheck
+                  timeout: 10m
+                  spec:
+                    onDelegate: false
+                    shell: Bash
+                    commandUnits:
+                      - identifier: Health
+                        name: Health
+                        type: Script
+                        spec:
+                          shell: Bash
+                          source:
+                            type: Inline
+                            spec:
+                              script: |
+                                cd /tmp/mechanical
+                                chmod +x scripts/healthcheck.sh
+                                ./scripts/healthcheck.sh
+                  strategy:
+                    repeat:
+                      items: <+stage.output.hosts>
         failureStrategies:
           - onFailure:
               errors:
