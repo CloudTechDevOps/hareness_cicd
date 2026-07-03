@@ -121,22 +121,6 @@ pipeline:
                                 cd /tmp/mechanical
                                 chmod +x scripts/healthcheck.sh
                                 ./scripts/healthcheck.sh
-                  strategy:
-                    repeat:
-                      items: <+stage.output.hosts>
-              - step:
-                  type: HarnessApproval
-                  name: Production Approval
-                  identifier: ProductionApproval
-                  timeout: 30m
-                  spec:
-                    approvalMessage: Approve deployment to Production
-                    includePipelineExecutionHistory: true
-                    approvers:
-                      userGroups:
-                        - account._account_all_users
-                      minimumCount: 1
-                      disallowPipelineExecutor: false
                 strategy:
                   repeat:
                     items: <+stage.output.hosts>
