@@ -108,16 +108,16 @@ def api_status():
 def api_events():
     return jsonify(list(EVENTS))
 
-
-@app.route("/healthz")
-def healthz():
+#
+@app.route("/health")
+def health():
     """Lightweight liveness endpoint for load balancers, container
     orchestrators, and the scripts/healthcheck.sh script."""
     return jsonify({"status": "ok"}), 200
 
 
-@app.route("/readyz")
-def readyz():
+@app.route("/ready")
+def ready():
     """Readiness endpoint — separate from liveness so orchestrators
     can distinguish 'process is up' from 'process can serve traffic'."""
     return jsonify({"status": "ready", "uptime_seconds": int(time.time() - START_TIME)}), 200
