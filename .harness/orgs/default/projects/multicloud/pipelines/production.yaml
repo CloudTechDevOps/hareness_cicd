@@ -16,20 +16,6 @@ pipeline:
             environmentRef: production
             infrastructureDefinitions:
               - identifier: ec2_prod
-                type: Pdc
-                spec:
-                  connectorRef: account.pdc_connector
-                  hosts:
-                    - <+secrets.getValue("account.ec2_host")>
-                  credentials:
-                    authentication:
-                      type: Key
-                      spec:
-                        userName: <+secrets.getValue("account.ec2_username")>
-                        key:
-                          type: HarnessSecret
-                          spec:
-                            secretRef: account.ec2_pem_key
           execution:
             steps:
               - step:
