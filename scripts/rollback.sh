@@ -1,25 +1,35 @@
 #!/bin/bash
+set -e
+
+APP_DIR=/home/ec2-user/python-app
+BACKUP_DIR=/home/ec2-user/backups
 
 echo "Rolling back..."
 
+# Stop the running app, if any
 PID=$(pgrep -f gunicorn || true)
-
-if [ ! -z "$PID" ]
-then
-kill -15 $PID
+if [ -n "$PID" ]; then
+    echo "Stopping gunicorn (PID $PID)..."
+    kill -15 $PID
+    sleep 2
 fi
 
-rm -rf /home/ec2-user/python-app
+# Find the most recent backup
+LATEST=$(ls -dt "$BACKUP_DIR"/*/ 2>/dev/null | head -1)
+if [ -z "$LATEST" ]; then
+    echo "No backup found in $BACKUP_DIR — cannot roll back."
+    exit 1
+fi
+echo "Restoring from $LATEST"
 
-LATEST=$(ls -dt /home/ec2-user/backups/* | head -1)
+# Restore
+rm -rf "$APP_DIR"
+cp -r "$LATEST" "$APP_DIR"
 
-cp -r "$LATEST" /home/ec2-user/python-app
-
-cd /home/ec2-user/python-app
-
+# Restart the app
+cd "$APP_DIR"
 source venv/bin/activate
+nohup gunicorn -w 4 -b 0.0.0.0:8000 app:app > app.log 2>&1 &
+disown
 
-nohup gunicorn \
--w 4 \
--b 0.0.0.0:8000 \
-app:app > app.log 2>&1 &
+echo "Rollback complete."
