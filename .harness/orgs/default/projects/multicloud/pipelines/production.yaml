@@ -103,29 +103,6 @@ pipeline:
                       items: <+stage.output.hosts>
               - step:
                   type: Command
-                  name: Deploy
-                  identifier: Deploy
-                  spec:
-                    onDelegate: false
-                    shell: Bash
-                    commandUnits:
-                      - identifier: Deploy
-                        name: Deploy
-                        type: Script
-                        spec:
-                          shell: Bash
-                          source:
-                            type: Inline
-                            spec:
-                              script: |
-                                cd /tmp/mechanical
-                                chmod +x scripts/deploy.sh
-                                ./scripts/deploy.sh
-                  strategy:
-                    repeat:
-                      items: <+stage.output.hosts>
-              - step:
-                  type: Command
                   name: Start Application
                   identifier: Start
                   spec:
