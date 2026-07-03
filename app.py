@@ -126,5 +126,5 @@ def readyz():
 if __name__ == "__main__":
     # Development-only entrypoint. In production, Gunicorn imports
     # `app` directly (see scripts/start.sh / Dockerfile).
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 8000))
     app.run(host="0.0.0.0", port=port, debug=(APP_ENV != "production"))
