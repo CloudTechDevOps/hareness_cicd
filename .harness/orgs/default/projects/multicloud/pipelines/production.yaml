@@ -3,6 +3,27 @@ pipeline:
   identifier: production
   projectIdentifier: multicloud
   orgIdentifier: default
+  notificationRules:
+    - name: Pipeline Success Notification
+      identifier: pipeline_success_notification
+      pipelineEvents:
+        - type: PipelineSuccess
+      notificationMethod:
+        type: Email
+        spec:
+          recipients:
+            - veeraopstechnologies@gmail.com
+      enabled: true
+    - name: Pipeline Failure Notification
+      identifier: pipeline_failure_notification
+      pipelineEvents:
+        - type: PipelineFailed
+      notificationMethod:
+        type: Email
+        spec:
+          recipients:
+            - veeraopstechnologies@gmail.com
+      enabled: true
   properties:
     ci:
       codebase:
