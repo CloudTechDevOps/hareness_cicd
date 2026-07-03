@@ -16,6 +16,14 @@ pipeline:
             environmentRef: production
             infrastructureDefinitions:
               - identifier: ec2_prod
+                type: Pdc
+                spec:
+                  connectorRef: account.harness_delegate_connector
+                  sshKeyRef: ec2_ssh_key
+                  hosts:
+                    - <+secrets.getValue("ec2_host")>
+                  attributes:
+                    username: <+secrets.getValue("ec2_username")>
           execution:
             steps:
               - step:
