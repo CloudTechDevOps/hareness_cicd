@@ -1,0 +1,15 @@
+infrastructureDefinition:
+  name: veerainfra
+  identifier: veerainfra
+  orgIdentifier: default
+  projectIdentifier: multicloud
+  environmentRef: veera
+  deploymentType: Ssh
+  type: Pdc
+  spec:
+    connectorRef: harness_delegate_connector
+    credentialsRef: veera
+    hostFilter:
+      type: All
+      spec: {}
+  allowSimultaneousDeployments: false
