@@ -7,9 +7,10 @@ infrastructureDefinition:
   deploymentType: Ssh
   type: Pdc
   spec:
-    connectorRef: harness_delegate_connector
     credentialsRef: veera
     hostFilter:
       type: All
       spec: {}
+    hosts:
+      - 13.218.38.17
   allowSimultaneousDeployments: false
