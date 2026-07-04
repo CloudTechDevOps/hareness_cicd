@@ -15,9 +15,7 @@ from datetime import datetime, timezone
 
 import psutil
 from flask import Flask, jsonify, render_template
-5esrtxcgvhbjklm,
-3334444444w4sa4z4z4a
-234567234567
+
 # --------------------------------------------------------------------------
 # App setup
 # --------------------------------------------------------------------------
