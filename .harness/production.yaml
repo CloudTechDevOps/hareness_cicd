@@ -1,7 +1,0 @@
-environment:
-  orgIdentifier: default
-  projectIdentifier: multicloud
-  identifier: production
-  tags: {}
-  name: production
-  type: Production
