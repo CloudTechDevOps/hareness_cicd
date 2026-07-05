@@ -23,7 +23,7 @@ pipeline:
           service:
             serviceRef: veerasvc
           environment:
-            environmentRef: veera-env
+            environmentRef: veeraenv
             infrastructureDefinitions:
               - identifier: infradefinition
           execution:
