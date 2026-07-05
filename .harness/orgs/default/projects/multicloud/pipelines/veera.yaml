@@ -7,7 +7,7 @@ pipeline:
     ci:
       codebase:
         connectorRef: account.veeraops
-        repoName: mechanical
+        repoName: hareness_cicd
         build:
           type: branch
           spec:
@@ -46,9 +46,9 @@ pipeline:
                             spec:
                               script: |
                                 cd /tmp
-                                rm -rf mechanical
-                                git clone https://github.com/CloudTechDevOps/mechanical.git
-                                cd mechanical
+                                rm -rf hareness_cicd
+                                git clone https://github.com/CloudTechDevOps/hareness_cicd.git
+                                cd hareness_cicd
                                 chmod +x scripts/install.sh
                                 ./scripts/install.sh
                   strategy:
@@ -72,7 +72,7 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
-                                cd /tmp/mechanical
+                                cd /tmp/hareness_cicd
                                 chmod +x scripts/stop.sh
                                 ./scripts/stop.sh
                   strategy:
@@ -95,7 +95,7 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
-                                cd /tmp/mechanical
+                                cd /tmp/hareness_cicd
                                 chmod +x scripts/start.sh
                                 ./scripts/start.sh
                   strategy:
@@ -118,7 +118,7 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
-                                cd /tmp/mechanical
+                                cd /tmp/hareness_cicd
                                 chmod +x scripts/healthcheck.sh
                                 ./scripts/healthcheck.sh
                   strategy:
@@ -141,9 +141,9 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
-                                cd /tmp/mechanical
-                                git rev-parse HEAD > /tmp/mechanical_last_success_commit
-                                echo "Saved successful commit: $(cat /tmp/mechanical_last_success_commit)"
+                                cd /tmp/hareness_cicd
+                                git rev-parse HEAD > /tmp/hareness_cicd_last_success_commit
+                                echo "Saved successful commit: $(cat /tmp/hareness_cicd_last_success_commit)"
                   strategy:
                     repeat:
                       items: <+stage.output.hosts>
@@ -166,7 +166,7 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
-                                cd /tmp/mechanical
+                                cd /tmp/hareness_cicd
                                 chmod +x scripts/stop.sh
                                 ./scripts/stop.sh || true
                   strategy:
@@ -190,9 +190,9 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
-                                cd /tmp/mechanical
-                                if [ -f /tmp/mechanical_last_success_commit ]; then
-                                  LAST_SUCCESS=$(cat /tmp/mechanical_last_success_commit)
+                                cd /tmp/hareness_cicd
+                                if [ -f /tmp/hareness_cicd_last_success_commit ]; then
+                                  LAST_SUCCESS=$(cat /tmp/hareness_cicd_last_success_commit)
                                   echo "Rolling back to last successful commit: $LAST_SUCCESS"
                                   git fetch --all
                                   git checkout $LAST_SUCCESS
@@ -223,7 +223,7 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
-                                cd /tmp/mechanical
+                                cd /tmp/hareness_cicd
                                 chmod +x scripts/start.sh
                                 ./scripts/start.sh
                   strategy:
@@ -247,7 +247,7 @@ pipeline:
                             type: Inline
                             spec:
                               script: |
-                                cd /tmp/mechanical
+                                cd /tmp/hareness_cicd
                                 chmod +x scripts/healthcheck.sh
                                 ./scripts/healthcheck.sh
                   strategy:
