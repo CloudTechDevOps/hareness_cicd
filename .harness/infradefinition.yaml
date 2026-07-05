@@ -1,0 +1,16 @@
+infrastructureDefinition:
+  name: infradefinition
+  identifier: infradefinition
+  orgIdentifier: default
+  projectIdentifier: nit
+  environmentRef: veeraenv
+  deploymentType: Ssh
+  type: Pdc
+  spec:
+    credentialsRef: sshconnectveera
+    hostFilter:
+      type: All
+      spec: {}
+    hosts:
+      - 100.24.26.179
+  allowSimultaneousDeployments: false
