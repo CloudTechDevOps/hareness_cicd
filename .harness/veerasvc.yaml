@@ -1,0 +1,5 @@
+service:
+  name: veera-svc
+  identifier: veerasvc
+  orgIdentifier: default
+  projectIdentifier: nit
