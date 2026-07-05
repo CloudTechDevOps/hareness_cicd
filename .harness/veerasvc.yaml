@@ -3,3 +3,6 @@ service:
   identifier: veerasvc
   orgIdentifier: default
   projectIdentifier: nit
+  serviceDefinition:
+    spec: {}
+    type: Ssh
