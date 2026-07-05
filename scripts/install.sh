@@ -7,6 +7,7 @@ SRC_DIR=/tmp/hareness_cicd
 mkdir -p "$APP_DIR"
 cp -r "$SRC_DIR"/* "$APP_DIR"/
 
+
 cd "$APP_DIR"
 sudo yum install python3-pip -y
 python3 -m venv venv
