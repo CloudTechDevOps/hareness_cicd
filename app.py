@@ -12,9 +12,7 @@ import random
 import logging
 from collections import deque
 from datetime import datetime, timezone
-sdscscsxc
-asdnbsbfd
-smjjdnsjnd
+
 import psutil
 from flask import Flask, jsonify, render_template
 
