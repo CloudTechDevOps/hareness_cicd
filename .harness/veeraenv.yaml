@@ -1,0 +1,6 @@
+environment:
+  name: veera-env
+  identifier: veeraenv
+  orgIdentifier: default
+  projectIdentifier: nit
+  type: Production
