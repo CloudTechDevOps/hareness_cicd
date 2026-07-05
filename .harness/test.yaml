@@ -259,3 +259,17 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
+  notificationRules:
+    - name: test
+      identifier: test
+      pipelineEvents:
+        - type: PipelineSuccess
+        - type: PipelineFailed
+      notificationMethod:
+        type: Email
+        spec:
+          userGroups:
+            - account._account_all_users
+          recipients:
+            - veerababu.narni232@gmail.com
+      enabled: true
