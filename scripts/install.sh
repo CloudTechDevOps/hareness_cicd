@@ -2,7 +2,7 @@
 set -e
 
 APP_DIR=/home/ec2-user/python-app
-SRC_DIR=/tmp/mechanical
+SRC_DIR=/tmp/hareness_cicd
 
 mkdir -p "$APP_DIR"
 cp -r "$SRC_DIR"/* "$APP_DIR"/
