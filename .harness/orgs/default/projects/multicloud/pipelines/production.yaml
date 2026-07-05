@@ -7,7 +7,7 @@ pipeline:
     ci:
       codebase:
         connectorRef: account.veeraops
-        repoName: mechanical
+        repoName: mechanica
         build:
           type: branch
           spec:
