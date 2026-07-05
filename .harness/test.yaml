@@ -21,7 +21,7 @@ pipeline:
           cloneCodebase: true
           deploymentType: Ssh
           service:
-            serviceRef: python_app
+            serviceRef: veera-svc
           environment:
             environmentRef: veera-env
             infrastructureDefinitions:
